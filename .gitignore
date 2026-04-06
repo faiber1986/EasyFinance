@@ -1,10 +1,51 @@
-# Python-generated files
+# 1. Archivos compilados y caches de Python
 __pycache__/
-*.py[oc]
-build/
-dist/
-wheels/
-*.egg-info
+*.py[cod]
+*$py.class
+.ipynb_checkpoints
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
-# Virtual environments
-.venv
+# 2. Entornos virtuales
+.venv/
+venv/
+ENV/
+env/
+
+# 3. Archivos de configuración sensible (SEGURIDAD)
+.env
+.env.*
+!.env.example
+
+# 4. Bases de datos locales y datos crudos
+ai_engine/rag/vectorstore/
+data/
+*.db
+*.sqlite3
+
+# 5. Archivos del sistema operativo y herramientas
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+
+# 6. Distribución / Paquetes
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST

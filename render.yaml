@@ -1,0 +1,26 @@
+services:
+  # --- SERVICIO DEL BACKEND (FastAPI) ---
+  - type: web
+    name: easy-finance-backend
+    env: python
+    buildCommand: "uv sync --frozen && uv run python ai_engine/rag/ingest.py"
+    startCommand: "uv run uvicorn backend.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: GOOGLE_API_KEY
+        sync: false # Lo pondrás manualmente en el dashboard de Render
+      - key: PYTHONPATH
+        value: "."
+
+  # --- SERVICIO DEL FRONTEND (Streamlit) ---
+  - type: web
+    name: easy-finance-frontend
+    env: python
+    buildCommand: "uv sync --frozen"
+    startCommand: "uv run streamlit run frontend/app.py --server.port $PORT --server.address 0.0.0.0"
+    envVars:
+      - key: BACKEND_URL
+        fromService:
+          type: web
+          name: easy-finance-backend
+          property: host
+

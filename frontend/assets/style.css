@@ -1,0 +1,106 @@
+/* frontend/assets/style.css */
+
+/* Define variables de color basadas en image_0.png (Easy Finance) */
+:root {
+    --primary-blue: #00305C;
+    /* Azul profundo del logo */
+    --accent-green: #37C04D;
+    /* Verde brillante del logo */
+    --accent-cyan: #17C7C1;
+    /* Cian del logo */
+    --background-white: #FFFFFF;
+    --text-grey: #666666;
+    --footer-bg: #F0F2F6;
+    /* Un gris muy claro para el footer */
+}
+
+/* 1. Estilos Globales */
+html,
+body,
+[data-testid="stAppViewContainer"] {
+    background-color: var(--background-white);
+    color: #333333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Fuente profesional */
+}
+
+/* 2. Personalizar la barra lateral (Sidebar) */
+[data-testid="stSidebar"] {
+    background-color: var(--primary-blue);
+    color: white;
+}
+
+[data-testid="stSidebar"] * {
+    color: white !important;
+}
+
+/* Estilizar el logo de la marca en la sidebar */
+[data-testid="stSidebar"] img.brand-logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    margin-bottom: 20px;
+}
+
+/* Separadores en la sidebar */
+hr.custom-hr {
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* 3. Estilizar botones (enviar, calcular) */
+.stButton>button {
+    background-color: var(--accent-green);
+    color: white !important;
+    border-radius: 5px;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.stButton>button:hover {
+    background-color: var(--accent-cyan);
+}
+
+/* 4. Estilizar las páginas y títulos */
+h1,
+h2,
+h3 {
+    color: var(--primary-blue);
+}
+
+/* 5. Custom Footer Section (Inyección HTML en app.py) */
+.custom-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--footer-bg);
+    color: var(--text-grey);
+    text-align: center;
+    padding: 15px 0;
+    font-size: 0.85rem;
+    z-index: 1000;
+    border-top: 1px solid #E0E0E0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    /* Espacio entre los elementos */
+}
+
+.custom-footer p {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+}
+
+.custom-footer img.dev-firm {
+    height: 30px;
+    /* Tamaño sutil de la firma */
+    vertical-align: middle;
+}
+
+.custom-footer img.rights-reserved {
+    height: 14px;
+    vertical-align: middle;
+}

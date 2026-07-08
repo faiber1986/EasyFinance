@@ -1,6 +1,6 @@
 /* frontend/assets/style.css */
 
-/* Define variables de color basadas en image_0.png (Easy Finance) */
+/* Colores de marca (constantes en ambos temas) */
 :root {
     --primary-blue: #00305C;
     /* Azul profundo del logo */
@@ -8,20 +8,45 @@
     /* Verde brillante del logo */
     --accent-cyan: #17C7C1;
     /* Cian del logo */
-    --background-white: #FFFFFF;
-    --text-grey: #666666;
+}
+
+/* Variables dependientes del tema activo (data-theme en <html>) */
+:root,
+:root[data-theme="light"] {
+    --bg-main: #FFFFFF;
+    --bg-secondary: #F7F9FB;
+    --text-main: #333333;
+    --text-muted: #666666;
     --footer-bg: #F0F2F6;
-    /* Un gris muy claro para el footer */
+    --border-color: #E0E0E0;
+    --input-bg: #FFFFFF;
+    --heading-color: var(--primary-blue);
+}
+
+:root[data-theme="dark"] {
+    --bg-main: #0E1117;
+    --bg-secondary: #161B22;
+    --text-main: #E6E6E6;
+    --text-muted: #A3A3A3;
+    --footer-bg: #161B22;
+    --border-color: #30363D;
+    --input-bg: #1E222A;
+    --heading-color: #5AA9FF;
 }
 
 /* 1. Estilos Globales */
 html,
 body,
-[data-testid="stAppViewContainer"] {
-    background-color: var(--background-white);
-    color: #333333;
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"] {
+    background-color: var(--bg-main);
+    color: var(--text-main);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     /* Fuente profesional */
+}
+
+[data-testid="stHeader"] {
+    background-color: var(--bg-main);
 }
 
 /* 2. Personalizar la barra lateral (Sidebar) */
@@ -32,15 +57,6 @@ body,
 
 [data-testid="stSidebar"] * {
     color: white !important;
-}
-
-/* Estilizar el logo de la marca en la sidebar */
-[data-testid="stSidebar"] img.brand-logo {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 70%;
-    margin-bottom: 20px;
 }
 
 /* Separadores en la sidebar */
@@ -65,22 +81,41 @@ hr.custom-hr {
 h1,
 h2,
 h3 {
-    color: var(--primary-blue);
+    color: var(--heading-color);
 }
 
-/* 5. Custom Footer Section (Inyección HTML en app.py) */
+/* 5. Campos de entrada (inputs, selects, textarea, chat) */
+[data-testid="stTextInput"] input,
+[data-testid="stNumberInput"] input,
+[data-testid="stSelectbox"] div[data-baseweb="select"] > div,
+[data-testid="stTextArea"] textarea,
+[data-testid="stChatInput"] textarea {
+    background-color: var(--input-bg) !important;
+    color: var(--text-main) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* 6. Contenedores/paneles secundarios (dataframes, chat, expanders) */
+[data-testid="stDataFrame"],
+[data-testid="stChatMessage"],
+[data-testid="stExpander"] {
+    background-color: var(--bg-secondary);
+    border-radius: 6px;
+}
+
+/* 7. Custom Footer Section (Inyección HTML en app.py) */
 .custom-footer {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
     background-color: var(--footer-bg);
-    color: var(--text-grey);
+    color: var(--text-muted);
     text-align: center;
     padding: 15px 0;
     font-size: 0.85rem;
     z-index: 1000;
-    border-top: 1px solid #E0E0E0;
+    border-top: 1px solid var(--border-color);
     display: flex;
     justify-content: center;
     align-items: center;

@@ -1,147 +1,168 @@
 # 📈 Easy Finance
 
-> **Motor de cálculo financiero determinista con asesoría inteligente basada en IA (RAG + Agentes)**
+> **Deterministic financial calculation engine with AI-powered advisory (RAG + Agents)**
 
-Easy Finance es una aplicación full-stack diseñada para estudiantes, asesores y profesionales de las finanzas. Combina un **backend de cálculos exactos** (sin alucinaciones de IA) con un **asistente conversacional** que consulta documentación técnica y ejecuta operaciones matemáticas de forma precisa.
+🌐 **[Leer en Español](README.es.md)**
+
+Easy Finance is a full-stack application for students, advisors, and finance professionals. It combines an **exact calculation backend** (no AI hallucinations) with a **conversational assistant** that consults technical documentation and runs precise mathematical operations as callable tools.
+
+The UI ships with a **dark/light theme switch** and an **English/Spanish language toggle**, both available from the login screen and the sidebar.
 
 ---
 
-## 🚀 Funcionalidades
+## 📸 Screenshots
 
-| Módulo | Descripción |
+| Rate Conversion (Light · Spanish) | Amortization Table (Dark · Spanish) |
+|---|---|
+| ![Rate conversion](frontend/assets/screenshots/01_tasas_light_es.png) | ![Amortization table](frontend/assets/screenshots/02_amortizacion_dark_es.png) |
+
+| Annuities & Gradients (Light · English) | AI Assistant (Light · Spanish) |
+|---|---|
+| ![Annuities](frontend/assets/screenshots/03_anualidades_light_en.png) | ![AI Assistant](frontend/assets/screenshots/04_chatbot_light_es.png) |
+
+---
+
+## 🚀 Features
+
+| Module | Description |
 |--------|-------------|
-| 🔄 **Conversión de Tasas** | Convierte entre tasas Nominales, Periódicas y Efectivas Anuales (EA) con fórmulas exactas |
-| 📈 **Anualidades y Gradientes** | Calcula el valor presente y futuro de anualidades ordinarias, anticipadas, gradientes aritméticos y geométricos |
-| 📊 **Tablas de Amortización** | Genera tablas de amortización completas bajo los sistemas Francés y Alemán |
-| 🤖 **Asistente IA (RAG)** | Asesor financiero inteligente que consulta documentación técnica (PDFs) y ejecuta cálculos deterministas mediante herramientas |
+| 🔄 **Rate Conversion** | Converts between Nominal, Periodic, and Effective Annual (EA) rates with exact formulas |
+| 📈 **Annuities & Gradients** | Computes present/future value for ordinary and due annuities, plus arithmetic and geometric gradients |
+| 📊 **Amortization Tables** | Generates full amortization schedules under the French (fixed installment) and German (fixed principal) systems |
+| 🤖 **AI Assistant (RAG)** | Financial advisor that consults technical documentation (PDFs) and delegates exact math to deterministic tools |
+| 🌓 **Dark / Light Mode** | Instant theme switch, persisted per session, applied consistently across every page |
+| 🌐 **English / Spanish** | Full UI translation, including sidebar navigation, forms, and result messages |
 
 ---
 
-## 🏗️ Arquitectura
+## 🏗️ Architecture
 
 ```
 Easy Finance/
-├── backend/                    # API REST con FastAPI
-│   ├── api/                    # Endpoints por módulo
+├── backend/                    # REST API with FastAPI
+│   ├── api/                    # Endpoints per module
 │   │   ├── tasas.py
 │   │   ├── amortizacion.py
 │   │   ├── anualidades.py
-│   │   └── chatbot.py          # Endpoint del agente IA
-│   ├── core/                   # Lógica financiera determinista (sin IA)
-│   │   ├── interest.py         # Conversión de tasas
-│   │   ├── amortization.py     # Tablas de amortización
-│   │   ├── annuities.py        # Anualidades
-│   │   ├── gradients.py        # Gradientes
-│   │   └── cashflows.py        # Flujos de caja
-│   ├── schemas.py              # Modelos Pydantic
-│   └── main.py                 # Punto de entrada de FastAPI
+│   │   └── chatbot.py          # AI agent endpoint
+│   ├── core/                   # Deterministic financial logic (no AI)
+│   │   ├── interest.py         # Rate conversion
+│   │   ├── amortization.py     # Amortization tables
+│   │   ├── annuities.py        # Annuities
+│   │   ├── gradients.py        # Gradients
+│   │   └── cashflows.py        # Cash flow orchestration
+│   ├── schemas.py              # Pydantic models
+│   └── main.py                 # FastAPI entry point
 │
-├── frontend/                   # Interfaz de usuario con Streamlit
-│   ├── app.py                  # Punto de entrada principal
-│   ├── auth.py                 # Autenticación de sesión
-│   ├── utils.py                # Funciones de ayuda (CSS, footer)
-│   ├── assets/                 # Recursos estáticos (logo, CSS)
-│   └── modulos/                # Páginas de la aplicación
+├── frontend/                   # Streamlit UI
+│   ├── app.py                  # Main entry point, auth gate, theme/language toggles
+│   ├── auth.py                 # Session authentication
+│   ├── utils.py                # Helpers (CSS loading, theme sync, footer)
+│   ├── i18n.py                 # Translation dictionaries and helpers
+│   ├── assets/                 # Static assets (logo, CSS, screenshots)
+│   └── modulos/                # Application pages
 │       ├── 1_tasas.py
 │       ├── 2_anualidades.py
 │       ├── 3_amortizacion.py
 │       └── 4_chatbot_rag.py
 │
-├── ai_engine/                  # Motor de Inteligencia Artificial
+├── ai_engine/                  # AI engine
 │   ├── agents/
-│   │   ├── financial_agent.py  # Agente LangChain con herramientas
-│   │   └── math_agent.py       # Herramientas de cálculo determinista
+│   │   ├── financial_agent.py  # LangChain agent with tools
+│   │   └── math_agent.py       # Deterministic calculation tools
 │   └── rag/
-│       ├── ingest.py           # Indexación de PDFs → ChromaDB
-│       ├── retriever.py        # Búsqueda semántica
-│       └── vectorstore/        # Base de datos vectorial (local, en .gitignore)
+│       ├── ingest.py           # PDF indexing → ChromaDB
+│       ├── retriever.py        # Semantic search
+│       └── vectorstore/        # Vector database (local, gitignored)
 │
 ├── data/
-│   └── docs/                   # PDFs de normatividad y libros (en .gitignore)
+│   └── docs/                   # Regulatory/reference PDFs (gitignored)
 │
 ├── Dockerfile
 ├── docker-compose.yml
-├── render.yaml                 # Configuración de despliegue en Render
+├── render.yaml                 # Render deployment configuration
 ├── pyproject.toml
-└── .env                        # Variables de entorno (en .gitignore)
+└── .env                        # Environment variables (gitignored)
 ```
 
 ---
 
-## ⚙️ Tecnologías
+## ⚙️ Tech Stack
 
 - **Backend**: [FastAPI](https://fastapi.tiangolo.com/) + [Uvicorn](https://www.uvicorn.org/)
 - **Frontend**: [Streamlit](https://streamlit.io/)
-- **IA / LLM**: [Gemini](https://ai.google.dev/) vía `langchain-google-genai`
-- **Agente**: [LangChain](https://www.langchain.com/) — `AgentExecutor` con `StructuredTool`
+- **AI / LLM**: [Gemini](https://ai.google.dev/) via `langchain-google-genai`
+- **Agent**: [LangChain](https://www.langchain.com/) — `AgentExecutor` with `StructuredTool`
 - **RAG**: [ChromaDB](https://www.trychroma.com/) + `GoogleGenerativeAIEmbeddings`
-- **Gestión de entorno**: [uv](https://github.com/astral-sh/uv)
-- **Despliegue**: Docker / [Render](https://render.com/)
+- **Environment management**: [uv](https://github.com/astral-sh/uv)
+- **Deployment**: Docker / [Render](https://render.com/)
 
 ---
 
-## 📦 Instalación Local
+## 📦 Local Setup
 
-### Requisitos previos
+### Prerequisites
 - Python 3.12+
-- [`uv`](https://github.com/astral-sh/uv) instalado
-- Una **Google API Key** (obtenla gratis en [Google AI Studio](https://aistudio.google.com/app/apikey))
+- [`uv`](https://github.com/astral-sh/uv) installed
+- A **Google API Key** (free at [Google AI Studio](https://aistudio.google.com/app/apikey))
 
-### Pasos
+### Steps
 
-**1. Clona el repositorio e instala dependencias:**
+**1. Clone the repository and install dependencies:**
 ```bash
-git clone <url-del-repositorio>
+git clone <repository-url>
 cd easy-finance
 uv sync --link-mode=copy
 ```
 
-**2. Configura las variables de entorno:**
+**2. Configure environment variables:**
 ```bash
-# Crea el archivo .env en la raíz del proyecto
+# Create the .env file at the project root
 cp .env.example .env
 ```
-Edita el archivo `.env` y agrega tu llave:
+Edit `.env` and add your key:
 ```env
-GOOGLE_API_KEY=tu_api_key_aqui
+GOOGLE_API_KEY=your_api_key_here
 ```
 
-**3. (Opcional) Indexa tus documentos PDF:**
+**3. (Optional) Index your PDF documents:**
 
-Coloca los archivos PDF en la carpeta `data/docs/` y ejecuta:
+Place PDF files in `data/docs/` and run:
 ```bash
 uv run python ai_engine/rag/ingest.py
 ```
-Esto procesará los PDFs y creará la base de datos vectorial en `ai_engine/rag/vectorstore/`.
+This processes the PDFs and builds the vector database in `ai_engine/rag/vectorstore/`.
 
 ---
 
-## ▶️ Ejecución
+## ▶️ Running the App
 
-### Opción A — Script automático (Windows)
+### Option A — Automatic script (Windows)
 ```powershell
 .\run_app.ps1
 ```
 
-### Opción B — Manual (dos terminales)
+### Option B — Manual (two terminals)
 
 **Terminal 1 — Backend (FastAPI):**
 ```bash
 uv run python -m uvicorn backend.main:app --reload
 ```
-API disponible en: `http://127.0.0.1:8000`
-Documentación interactiva: `http://127.0.0.1:8000/docs`
+API available at: `http://127.0.0.1:8000`
+Interactive docs: `http://127.0.0.1:8000/docs`
 
 **Terminal 2 — Frontend (Streamlit):**
 ```bash
 cd frontend
 uv run python -m streamlit run app.py
 ```
-App disponible en: `http://localhost:8501`
+App available at: `http://localhost:8501`
+
+> Default demo credentials: `admin@riesgos.com` / `admin123` (mock auth in `frontend/auth.py`, meant to be replaced with real authentication before production use).
 
 ---
 
-## 🐳 Despliegue con Docker
+## 🐳 Docker Deployment
 
 ```bash
 docker-compose up --build
@@ -149,47 +170,66 @@ docker-compose up --build
 
 ---
 
-## 🌐 Despliegue en Render
+## 🌐 Render Deployment
 
-El archivo `render.yaml` define dos servicios (backend y frontend). 
+`render.yaml` defines two services (backend and frontend).
 
-1. Conecta tu repositorio en [Render](https://render.com/).
-2. Ve a **Environment** del servicio backend y agrega la variable:
-   - `GOOGLE_API_KEY` → tu llave de Google AI.
-3. Render detectará el `render.yaml` y desplegará ambos servicios automáticamente.
+1. Connect your repository on [Render](https://render.com/).
+2. Go to the backend service's **Environment** tab and add:
+   - `GOOGLE_API_KEY` → your Google AI key.
+3. Render will detect `render.yaml` and deploy both services automatically.
 
 ---
 
-## 📐 Fórmulas Implementadas
+## 📐 Implemented Formulas
 
-### Conversión de Tasas
-| Conversión | Fórmula |
+### Rate Conversion
+| Conversion | Formula |
 |---|---|
 | Nominal → EA | `EA = (1 + i_nom/n)^n - 1` |
-| Periódica → EA | `EA = (1 + i_per)^n - 1` |
+| Periodic → EA | `EA = (1 + i_per)^n - 1` |
 | EA → Nominal | `i_nom = n * ((1 + EA)^(1/n) - 1)` |
-| EA → Periódica | `i_per = (1 + EA)^(1/n) - 1` |
+| EA → Periodic | `i_per = (1 + EA)^(1/n) - 1` |
 
-### Amortización Francesa
-- Cuota fija: `C = P * i / (1 - (1+i)^-n)`
+### Annuities & Gradients (Present Value)
+| Instrument | Formula |
+|---|---|
+| Ordinary Annuity | `VP = A * (1 - (1+i)^-n) / i` |
+| Annuity Due | `VP = A * (1 - (1+i)^-n) / i * (1+i)` |
+| Arithmetic Gradient | `VP = VP_annuity + (G/i) * ((1-(1+i)^-n)/i - n/(1+i)^n)` |
+| Geometric Gradient | `VP = A * (1 - ((1+j)/(1+i))^n) / (i - j)` |
 
-### Amortización Alemana
-- Cuota de capital fija: `K = P / n`
+Future value for any instrument is obtained as `VF = VP * (1+i)^n`.
 
----
+### French Amortization
+- Fixed installment: `A = P * i(1+i)^n / ((1+i)^n - 1)`
 
-## 🔒 Seguridad
-
-- El archivo `.env` está excluido del repositorio vía `.gitignore`.
-- La carpeta `data/` (PDFs) y `ai_engine/rag/vectorstore/` (base de datos) son locales y no se suben al repositorio.
-
----
-
-## 👤 Autor
-
-**Faiber Andres Montes Gómez**  
-Proyecto de finanzas computacionales aplicadas con IA.
+### German Amortization
+- Fixed principal installment: `K = P / n`
 
 ---
 
-*Easy Finance — Cálculos exactos, asesoría inteligente.*
+## 🌓 Theme & 🌐 Language
+
+- Theme and language preferences live in `st.session_state` and are re-applied on every page via `frontend/utils.py::load_css()`.
+- Dark mode works by tagging the document root with `data-theme` and switching CSS custom properties defined in `frontend/assets/style.css`.
+- Translations are centralized in `frontend/i18n.py`; UI labels use `t(key)` while selectable option values keep their internal (Spanish) identifiers so the backend contract never changes — only their displayed label is translated via `opt(category, value)`.
+
+---
+
+## 🔒 Security
+
+- The `.env` file is excluded from the repository via `.gitignore`.
+- The `data/` folder (PDFs) and `ai_engine/rag/vectorstore/` (database) are local-only and not pushed to the repository.
+- The bundled login is a development mock — replace `frontend/auth.py` with real authentication before deploying publicly.
+
+---
+
+## 👤 Author
+
+**Faiber Andres Montes Gómez**
+Applied computational finance project powered by AI.
+
+---
+
+*Easy Finance — Exact calculations, intelligent advisory.*
